@@ -1,5 +1,9 @@
 #include <iostream>
+#include <fstream>
 #include <cstring>
+
+#include "radiance.h"
+#include "ddscm.h"
 
 using namespace std;
 
@@ -13,6 +17,12 @@ int main(int argc, char *argv[])
              << "Supported options: none yet" << endl;
 
         return 1;
+    }
+
+    RadianceMap inHDR;
+    {
+        ifstream in { argv[argc - 2] };
+        inHDR.load(in);
     }
 
     return 0;

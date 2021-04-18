@@ -6,16 +6,27 @@ struct Pixel
     float r, g, b;
 };
 
-class SphereMap
+struct Size
+{
+    int width, height;
+};
+
+class Map
 {
 public:
-    virtual ~SphereMap();
+    virtual ~Map();
 
+    virtual Size size() const = 0;
+};
+
+class SphereMap: public Map
+{
+public:
     virtual Pixel getPixel(double p, double t) const = 0;
     virtual void setPixel(double p, double t, Pixel px) = 0;
 };
 
-class CubeMap
+class CubeMap: public Map
 {
 public:
     enum class Side
@@ -25,11 +36,10 @@ public:
 
     static const Side SIDES[6];
 
-    virtual ~CubeMap();
-
     virtual Pixel getPixel(Side s, int x, int y) const = 0;
     virtual void setPixel(Side s, int x, int y, Pixel px) = 0;
 
+    // Set this cubemap's sides as projection from surrounding spheremap
     void setProjection(const SphereMap &src);
 };
 
